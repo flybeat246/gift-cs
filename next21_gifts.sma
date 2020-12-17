@@ -58,7 +58,7 @@ new bool:hasAdmin[33] = { false, ... }
 new g_model[] = "model"
 new g_santa_t[] = "santa_t"
 new g_santa_ct[] = "santa_ct"
- 
+new gmsgSetFOV
 	
 public plugin_precache()
 {
@@ -83,7 +83,7 @@ public plugin_precache()
 public plugin_init()
 {
    register_plugin(PLUGIN, VERSION, AUTHOR)
-    
+   gmsgSetFOV = get_user_msgid("SetFOV")
    register_cvar("cv_gift_access","a")       // Флаг доступа к меню
    register_cvar("cv_gift_money_min","200")    // Минимальная награда за собрынный подарок
    register_cvar("cv_gift_money_max","1000")    // Максимальная награда за собрынный подарок
@@ -733,7 +733,7 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
 		 {
             fm_give_item(id,"weapon_g3sg1")
             ExecuteHamB(Ham_GiveAmmo, id, 90, "762nato", 90)
-			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !Bbl TToJly4uJlu !gCkoPoCTpeJlKy..beta..", PLUGIN)
+			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !Bbl TToJly4uJlu PedKyI0!gCkoPoCTpeJlKy", PLUGIN)
             loopDestroy = 0
 		 }
 		 
@@ -750,7 +750,11 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
 		}
 		if(kopoha > 4)
 		{
-			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !B TTodaPke 6blJl KoPoHoBuPyc -  BaC He 3aPa3uJlo", PLUGIN)
+			SetFOV(id)
+			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !B TTodaPke KaKue-To TToDo3PuTeJlbHblE Ta6JleTku", PLUGIN)
+			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !Cpo4Ho oTdauTe ux MoPHuHrY. He TTpo6yuTe Ha BKyC", PLUGIN)
+			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !Hy BoT 4To CJly4eTc9 KorDa HE CJlywaEwb 4To rOBop9T", PLUGIN)
+			set_task(10.0, "StopFOV" ,id)
 			loopDestroy = 0
 		}
 		else give_gift(id)
@@ -769,6 +773,7 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
 			}
 	  }
       //case 7: тут по примерам выше
+	
    }
 }
 
@@ -891,7 +896,7 @@ public fire_player(id) {
 	         case 1:   client_print(0,print_chat,"KoPoHoBuPyc y %s: He TTodXodu K HeMy",name) 
 	} 
 		
-	console_print(id,"Client ^"%s^" 3apa}|{eH...",name) 
+	console_print(id,"UrPoK ^"%s^" 3apa}|{eH...",name) 
 	
 	return PLUGIN_HANDLED 
 }  
@@ -974,3 +979,17 @@ bool: is_user_access(id)
       
    return false
 }
+
+public SetFOV(id) 
+{ 
+    
+    message_begin(MSG_ONE, gmsgSetFOV, {0,0,0}, id) 
+    write_byte(170) 
+    message_end()
+}
+public StopFOV(id) 
+{ 
+    message_begin(MSG_ONE, gmsgSetFOV, {0,0,0}, id) 
+    write_byte(90) 
+    message_end()
+} 
