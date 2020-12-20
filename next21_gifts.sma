@@ -748,7 +748,7 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
 			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !B TTodaPke 6blJl KoPoHoBuPyc(0.05% WaHc - BaM He TToBe3Jlo)", PLUGIN)
 			loopDestroy = 0
 		}
-		if(kopoha > 4)
+		if(kopoha > 950)
 		{
 			SetFOV(id)
 			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !B TTodaPke KaKue-To TToDo3PuTeJlbHblE Ta6JleTku", PLUGIN)
@@ -757,7 +757,11 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
 			set_task(10.0, "StopFOV" ,id)
 			loopDestroy = 0
 		}
-		else give_gift(id)
+		else 
+			{
+				PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !3aXodu K HaM Ha FORUM. TaM Te69 }|{deT TTodapoK (HeT)", PLUGIN)
+				give_gift(id)
+			}
 	  }
 	  case 9:
       {
