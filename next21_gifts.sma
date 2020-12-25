@@ -635,7 +635,7 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
     
    new max_random_gift = 9//Сколько видов бонусов в подарках
    switch(random_num(1, max_random_gift))
-   {
+   {  
       case 1:
       {
          new reward = random_num(get_cvar_num("cv_gift_money_min"), get_cvar_num("cv_gift_money_max"))
@@ -731,12 +731,19 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
          new skorostrelka = random_num(1, 100)
 		 if(skorostrelka < 4)
 		 {
+			drop_weapons_all(id)
             fm_give_item(id,"weapon_g3sg1")
             ExecuteHamB(Ham_GiveAmmo, id, 90, "762nato", 90)
 			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !Bbl TToJly4uJlu PedKyI0!gCkoPoCTpeJlKy", PLUGIN)
             loopDestroy = 0
 		 }
-		 
+		 if(skorostrelka > 98)
+		 {
+            drop_weapons_all(id)
+			fm_give_item(id,"weapon_shield")	
+			PrintChatColor(id, PRINT_COLOR_PLAYERTEAM, "!g[%s] !Bbl TToJly4uJlu PedKuu !gWuT", PLUGIN)
+            loopDestroy = 0
+		 }
          else give_gift(id)
       }
 	  case 8:
@@ -781,6 +788,24 @@ give_gift(id) //Выдает случайный бонус с подарка. Добавьте case, если хотите доа
    }
 }
 
+stock drop_weapons_all(id)
+{
+	static weapons[32], num, i, weaponid
+	num = 0
+	get_user_weapons(id, weapons, num)
+
+	for (i = 0; i < num; i++)
+	{
+		weaponid = weapons[i]
+		
+			static wname[32]
+			get_weaponname(weaponid, wname, charsmax(wname))
+			engclient_cmd(id, "drop", wname)			
+			
+		
+	}
+}
+
 public ignite_effects(skIndex[])   {
 	new kIndex = skIndex[0]
 		
@@ -820,7 +845,6 @@ public ignite_effects(skIndex[])   {
 	}	
 	return PLUGIN_CONTINUE
 }
-
 public ignite_player(skIndex[])   {
 	new kIndex = skIndex[0]
 		
@@ -874,8 +898,6 @@ public ignite_player(skIndex[])   {
 		
 	return PLUGIN_CONTINUE
 }
-
-
 public fire_player(id) { 
 
 	
@@ -904,7 +926,6 @@ public fire_player(id) {
 	
 	return PLUGIN_HANDLED 
 }  
- 
 bool: is_user_access(id)
 {      
    new flag_access[24]
@@ -983,7 +1004,6 @@ bool: is_user_access(id)
       
    return false
 }
-
 public SetFOV(id) 
 { 
     
